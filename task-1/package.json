@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "npx eslint .",
+    "lint:fix": "npx eslint --fix .",
     "prettier": "npx prettier . --write"
   },
   "author": "",
