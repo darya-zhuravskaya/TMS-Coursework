@@ -33,18 +33,17 @@ describe("GET /users", () => {
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual(object);
   });
-});
 
-describe("PUT /users/{id}", () => {
-  test("when a user exists and data is valid", async () => {
-    const user = {
-      name: "Dima",
-      email: "Dima@april.biz",
-    };
-    const response = await HttpClient.put("/users/1", user)
+  test("when id is not a number", async () => {
+    const response = await HttpClient.get("/users/awsde");
 
-    expect(response.statusCode).toEqual(200);
-    expect(response.body).toMatchObject(user);
+    expect(response.statusCode).toEqual(404);
+  });
+
+  test("when id is too big", async () => {
+    const response = await HttpClient.get("/users/1000000000");
+
+    expect(response.statusCode).toEqual(404);
   });
 });
 
@@ -53,17 +52,80 @@ describe("POST /users", () => {
     const user = {
       name: "Lina",
       email: "Lina@april.biz",
-    }
-    const response = await HttpClient.post("/users", user)
+    };
+    const response = await HttpClient.post("/users", user);
 
     expect(response.statusCode).toEqual(201);
     expect(response.body).toMatchObject(user);
+  });
+
+  test("when empty body", async () => {
+    const user = {};
+    const response = await HttpClient.post("/users", user);
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test("when invalid email", async () => {
+    const user = {
+      name: "Lina",
+      email: "Linaaprilbiz",
+    };
+    const response = await HttpClient.post("/users", user);
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.error).toBeTruthy();
+  });
+});
+
+describe("PUT /users/{id}", () => {
+  test("when a user exists and data is valid", async () => {
+    const user = {
+      name: "Dima",
+      email: "Dima@april.biz",
+    };
+    const response = await HttpClient.put("/users/1", user);
+
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toMatchObject(user);
+  });
+
+  test("when a user exists and invalid email", async () => {
+    const user = {
+      name: "Dima",
+      email: "Dimaaprilbiz",
+    };
+    const response = await HttpClient.put("/users/1", user);
+
+    expect(response.statusCode).toEqual(400);
+    expect(response.body.error).toBeTruthy();
+  });
+
+  test("when a user id is not a number and data valid", async () => {
+    const user = {
+      name: "Dima",
+      email: "Dimaapr@gmail.com",
+    };
+    const response = await HttpClient.put("/users/asdf", user);
+
+    expect(response.statusCode).toEqual(404);
   });
 });
 
 describe("DELETE /users/{id}", () => {
   test("when a user exists", async () => {
-    const response = await HttpClient.delete("/users/1")
+    const response = await HttpClient.delete("/users/1");
+    expect(response.statusCode).toEqual(200);
+  });
+
+  test("when a user id is negative", async () => {
+    const response = await HttpClient.delete("/users/-1");
+    expect(response.statusCode).toEqual(200);
+  });
+
+  test("when a user id is too big", async () => {
+    const response = await HttpClient.delete("/users/1999999999");
     expect(response.statusCode).toEqual(200);
   });
 });
