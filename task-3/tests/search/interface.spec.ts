@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+import { SearchBar } from '../../pages/SearchBar';
+
 test.beforeEach(async ({ page }) => {
   await page.goto('https://oz.by/');
   await page.waitForLoadState()
@@ -7,18 +9,19 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('Cleaning search field', () => {
   test('when contains some text', async ({ page }) => {
-    const search = page.locator(`xpath=//input[@id="top-s"]`)
-    await search.focus()
-    const cleanButton =  page.locator(`xpath=//span[@class="search-tools"]//div[@class="reset"]`)
+    const searchBar = new SearchBar (page);
 
-    expect(cleanButton).toBeHidden()
+    await searchBar.searchField.focus()
+    expect(searchBar.cleanButton).toBeHidden()
 
-    await page.keyboard.type('1245345345');
+    await searchBar.fillInSearchField('123452345')
 
-    expect(cleanButton).toBeVisible()
-    await cleanButton.click()
-    expect(cleanButton).toBeHidden()
-    expect(search).toBeEmpty()
+    expect(searchBar.cleanButton).toBeVisible()
+
+    await searchBar.cleanButton.click()
+
+    expect(searchBar.cleanButton).toBeHidden()
+    expect(searchBar.searchField).toBeEmpty()
   });
 })
 
