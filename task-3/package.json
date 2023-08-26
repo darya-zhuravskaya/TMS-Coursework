@@ -1,0 +1,21 @@
+{
+  "name": "task-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "report:generate": "allure generate allure-results -o allure-report --clean",
+    "report:open": "allure open allure-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.37.1",
+    "allure-playwright": "^2.6.0"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.23.1"
+  }
+}
