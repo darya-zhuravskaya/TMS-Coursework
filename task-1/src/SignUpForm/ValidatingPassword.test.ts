@@ -1,5 +1,4 @@
 import SignUpForm from "../SignUpForm";
-
 import { describe, test, expect } from "@jest/globals";
 
 describe("Validating password", () => {
