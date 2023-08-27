@@ -1,28 +1,26 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-import { SearchBar } from '../../pages/SearchBar';
+import { SearchBar } from "../../pages/SearchBar";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto('https://oz.by/');
-  await page.waitForLoadState()
+  await page.goto("https://oz.by/");
+  await page.waitForLoadState();
 });
 
-test.describe('Cleaning search field', () => {
-  test('when contains some text', async ({ page }) => {
-    const searchBar = new SearchBar (page);
+test.describe("Cleaning search field", () => {
+  test("when contains some text", async ({ page }) => {
+    const searchBar = new SearchBar(page);
 
-    await searchBar.searchField.focus()
-    expect(searchBar.cleanButton).toBeHidden()
+    await searchBar.searchField.focus();
+    expect(searchBar.cleanButton).toBeHidden();
 
-    await searchBar.fillInSearchField('123452345')
+    await searchBar.fillInSearchField("123452345");
 
-    expect(searchBar.cleanButton).toBeVisible()
+    expect(searchBar.cleanButton).toBeVisible();
 
-    await searchBar.cleanButton.click()
+    await searchBar.cleanButton.click();
 
-    expect(searchBar.cleanButton).toBeHidden()
-    expect(searchBar.searchField).toBeEmpty()
+    expect(searchBar.cleanButton).toBeHidden();
+    expect(searchBar.searchField).toBeEmpty();
   });
-})
-
-
+});
