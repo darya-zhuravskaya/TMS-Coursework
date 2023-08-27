@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "npx eslint .",
     "lint:fix": "npx eslint --fix .",
-    "prettier": "npx prettier . --write"
+    "prettier": "npx prettier . --write",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
