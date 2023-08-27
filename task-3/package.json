@@ -1,0 +1,24 @@
+{
+  "name": "task-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test --headed",
+    "report:generate": "allure generate allure-results -o allure-report --clean",
+    "report:open": "allure open allure-report",
+    "prettier": "npx prettier . --write"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.37.1",
+    "allure-playwright": "^2.6.0"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.23.1",
+    "log4js": "^6.9.1",
+    "prettier": "^3.0.2"
+  }
+}
