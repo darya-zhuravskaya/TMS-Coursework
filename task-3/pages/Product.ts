@@ -2,6 +2,8 @@ import { Page, Locator } from "@playwright/test";
 
 import { Base } from "./Base";
 
+import { logger } from "../log.config";
+
 const locators = {
   productName: `xpath=//div[@class="b-product-title"]//h1`,
   productCode: `xpath=//span[@class="b-product-title__art"]`,
@@ -21,14 +23,22 @@ export class Product extends Base {
   }
 
   async name() {
+    logger.info("Getting product name");
+    logger.debug(`Getting product name by locator: ${locators.productName}`);
     return this.page.locator(locators.productName).textContent();
   }
 
   async code() {
+    logger.info("Getting product code");
+    logger.debug(`Getting product code by locator: ${locators.productCode}`);
     return this.page.locator(locators.productCode).textContent();
   }
 
   async addToCart() {
+    logger.info("Adding a product to the cart");
+    logger.debug(
+      `Adding a product to the cart clicking on the button: ${locators.addToCartButton}`,
+    );
     await this.addToCartButton.click();
     await this.page.waitForTimeout(300);
   }
@@ -39,6 +49,15 @@ export class Product extends Base {
       .first()
       .textContent();
 
-    return this.convertToNumber(bonuses);
+    const number = this.convertToNumber(bonuses);
+
+    logger.info(`Product ${await this.name()} has ${number} bonuses`);
+    logger.debug(
+      `Product ${await this.name()} has ${number} bonuses by locator ${
+        locators.bonuses
+      }`,
+    );
+
+    return number;
   }
 }

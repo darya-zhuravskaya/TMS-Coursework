@@ -3,9 +3,8 @@ import { LoginForm } from "../../pages/LoginForm";
 
 let form: LoginForm;
 
-const noPhoneError =
-  "Введите номер мобильного телефона белорусских опереторов";
-const invalidPhoneError = "Введите корректный номер мобильного телефона"
+const noPhoneError = "Введите номер мобильного телефона белорусских опереторов";
+const invalidPhoneError = "Введите корректный номер мобильного телефона";
 const emptyInputValue = "+375 (__) ___-__-__";
 const invalidPhoneCode = "99";
 const validPhone = "4444444444";
@@ -31,7 +30,7 @@ test.describe("Login in via phone", () => {
     await form.enterPhone("44555");
     await form.getSms();
 
-    expect(form.phoneFormErrors).toContainText(invalidPhoneError)
+    expect(form.phoneFormErrors).toContainText(invalidPhoneError);
     expect(form.getSmsButton).toHaveCSS("cursor", "not-allowed");
   });
 

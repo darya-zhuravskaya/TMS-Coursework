@@ -38,7 +38,7 @@ test.describe("Adding product to a cart", () => {
     expect(await cart.bonuses()).toBe(await productPage.bonuses());
   });
 
-  test("when adding two products", async ({ page }) => {
+  test.only("when adding two products", async ({ page }) => {
     const productPage = new Product(page);
     const productBonuses: number[] = [];
 
