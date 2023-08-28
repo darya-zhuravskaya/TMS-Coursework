@@ -7,11 +7,12 @@ let contextId: string;
 let httpClient: HttpClient;
 
 beforeEach(() => {
-  contextId = v4()
-  logger.info(`ContextId: ${contextId} Test name: ${expect.getState().currentTestName}`)
+  contextId = v4();
+  logger.info(
+    `ContextId: ${contextId} Test name: ${expect.getState().currentTestName}`,
+  );
   httpClient = new HttpClient(contextId);
 });
-
 
 describe("GET /users", () => {
   test("when user exists", async () => {

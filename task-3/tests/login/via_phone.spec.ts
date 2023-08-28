@@ -9,6 +9,7 @@ const emptyInputValue = "+375 (__) ___-__-__";
 const invalidPhoneCode = "99";
 const validPhone = "4444444444";
 const invalidVerificationCode = "4444";
+const invalidCodeError = "Неверный код";
 
 test.beforeEach(async ({ page }) => {
   form = new LoginForm(page);
@@ -34,13 +35,13 @@ test.describe("Login in via phone", () => {
     expect(form.getSmsButton).toHaveCSS("cursor", "not-allowed");
   });
 
-  test("when entering invalid code", async ({ page }) => {
+  test("when entering invalid operator code", async ({ page }) => {
     await form.enterPhone(invalidPhoneCode);
 
     expect(await form.phoneInput.inputValue()).toBe(emptyInputValue);
   });
 
-  test("when entered valid phoen number", async ({ page }) => {
+  test("when entered valid phone number", async ({ page }) => {
     await form.enterPhone(validPhone);
     await form.getSms();
 
@@ -50,6 +51,6 @@ test.describe("Login in via phone", () => {
     await form.verifyCode();
 
     expect(form.phoneFormErrors).toBeVisible();
-    expect(form.phoneFormErrors).toContainText("Неверный код");
+    expect(form.phoneFormErrors).toContainText(invalidCodeError);
   });
 });

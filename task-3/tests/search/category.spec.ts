@@ -3,14 +3,15 @@ import { SearchBar } from "../../pages/SearchBar";
 import { Category } from "../../pages/Category";
 import { Base } from "../../pages/Base";
 
+let searchBar: SearchBar;
+
 test.beforeEach(async ({ page }) => {
-  await page.goto("https://oz.by/");
-  await page.waitForLoadState();
+  searchBar = new SearchBar(page);
+  await searchBar.goto("https://oz.by/");
 });
 
 test.describe("Searching by existing category", () => {
   test("when clicking on dropdown item", async ({ page }) => {
-    const searchBar = new SearchBar(page);
     await searchBar.fillInSearchField("Бизнес-литература");
     await searchBar.clickOnResult(/^Бизнес-литература$/);
 
@@ -20,19 +21,17 @@ test.describe("Searching by existing category", () => {
   });
 
   test("when pressing enter", async ({ page }) => {
-    const searchBar = new SearchBar(page);
     await searchBar.fillInSearchField("Бизнес-литература");
     await searchBar.searchByEnter();
 
     const searchResults = new Base(page);
 
     expect(await searchResults.activeBreadcrumb()).toMatch(
-      /Найдено \d+ товаров по запросу «Бизнес-литература»/,
+      /Найден[а-я]* \d+ товар[а-я]* по запросу «Бизнес-литература»/,
     );
   });
 
   test("when clicking on search button", async ({ page }) => {
-    const searchBar = new SearchBar(page);
     await searchBar.fillInSearchField("Бизнес-литература");
 
     await searchBar.searchByButton();

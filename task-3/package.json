@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "playwright test --headed",
-    "report:generate": "allure generate allure-results -o allure-report --clean",
-    "report:open": "allure open allure-report",
+    "report:show": "allure generate allure-results -o allure-report --clean && allure open allure-report",
     "prettier": "npx prettier . --write"
   },
   "keywords": [],

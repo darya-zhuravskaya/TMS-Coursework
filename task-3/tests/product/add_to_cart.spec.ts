@@ -7,12 +7,16 @@ const urls = [
   "https://oz.by/sharpeners/more10839678.html",
 ];
 
+let productPage: Product;
+
+test.beforeEach(async ({ page }) => {
+  productPage = new Product(page);
+  await productPage.goto(urls[0]);
+  await productPage.addToCart();
+});
+
 test.describe("Adding product to a cart", () => {
   test("when no products added yet", async ({ page }) => {
-    const productPage = new Product(page);
-    await productPage.goto(urls[0]);
-    await productPage.addToCart();
-
     expect(productPage.addToCartButton).toBeHidden();
     expect(productPage.addedToCartMessage).toBeVisible();
 
@@ -23,10 +27,6 @@ test.describe("Adding product to a cart", () => {
   });
 
   test("when a product was already added", async ({ page }) => {
-    const productPage = new Product(page);
-    await productPage.goto(urls[0]);
-    await productPage.addToCart();
-
     await productPage.reload();
 
     expect(productPage.addToCartButton).toBeHidden();
@@ -39,14 +39,9 @@ test.describe("Adding product to a cart", () => {
   });
 
   test("when adding two products", async ({ page }) => {
-    const productPage = new Product(page);
     const productBonuses: number[] = [];
 
-    await productPage.goto(urls[0]);
-
     productBonuses.push(await productPage.bonuses());
-
-    await productPage.addToCart();
 
     expect(productPage.addToCartButton).toBeHidden();
     expect(productPage.addedToCartMessage).toBeVisible();

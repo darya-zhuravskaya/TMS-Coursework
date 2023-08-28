@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+import { Base } from "./Base";
 
 const locators = {
   searchField: `xpath=//input[@id="top-s"]`,
@@ -7,14 +8,13 @@ const locators = {
   searchButton: `xpath=//span[@class="search-tools"]/button`,
 };
 
-export class SearchBar {
-  private page: Page;
+export class SearchBar extends Base {
   searchField: Locator;
   cleanButton: Locator;
   searchButton: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     this.searchField = this.page.locator(locators.searchField);
     this.cleanButton = this.page.locator(locators.cleanButton);
     this.searchButton = this.page.locator(locators.searchButton);
