@@ -1,6 +1,17 @@
-import superagent from "superagent";
-import { describe, test, expect } from "@jest/globals";
+import { describe, test, expect, beforeEach } from "@jest/globals";
 import { HttpClient } from "../src/http.client";
+import { logger } from "../log.config";
+import { v4 } from "uuid";
+
+let contextId: string;
+let httpClient: HttpClient;
+
+beforeEach(() => {
+  contextId = v4()
+  logger.info(`ContextId: ${contextId} Test name: ${expect.getState().currentTestName}`)
+  httpClient = new HttpClient(contextId);
+});
+
 
 describe("GET /users", () => {
   test("when user exists", async () => {
@@ -28,20 +39,20 @@ describe("GET /users", () => {
       },
     };
 
-    const response = await HttpClient.get("/users/1");
+    const response = await httpClient.get("/users/1");
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toEqual(object);
   });
 
   test("when id is not a number", async () => {
-    const response = await HttpClient.get("/users/awsde");
+    const response = await httpClient.get("/users/awsde");
 
     expect(response.statusCode).toEqual(404);
   });
 
   test("when id is too big", async () => {
-    const response = await HttpClient.get("/users/1000000000");
+    const response = await httpClient.get("/users/1000000000");
 
     expect(response.statusCode).toEqual(404);
   });
@@ -53,7 +64,7 @@ describe("POST /users", () => {
       name: "Lina",
       email: "Lina@april.biz",
     };
-    const response = await HttpClient.post("/users", user);
+    const response = await httpClient.post("/users", user);
 
     expect(response.statusCode).toEqual(201);
     expect(response.body).toMatchObject(user);
@@ -61,7 +72,7 @@ describe("POST /users", () => {
 
   test("when empty body", async () => {
     const user = {};
-    const response = await HttpClient.post("/users", user);
+    const response = await httpClient.post("/users", user);
 
     expect(response.statusCode).toEqual(400);
     expect(response.body.error).toBeTruthy();
@@ -72,7 +83,7 @@ describe("POST /users", () => {
       name: "Lina",
       email: "Linaaprilbiz",
     };
-    const response = await HttpClient.post("/users", user);
+    const response = await httpClient.post("/users", user);
 
     expect(response.statusCode).toEqual(400);
     expect(response.body.error).toBeTruthy();
@@ -85,7 +96,7 @@ describe("PUT /users/{id}", () => {
       name: "Dima",
       email: "Dima@april.biz",
     };
-    const response = await HttpClient.put("/users/1", user);
+    const response = await httpClient.put("/users/1", user);
 
     expect(response.statusCode).toEqual(200);
     expect(response.body).toMatchObject(user);
@@ -96,7 +107,7 @@ describe("PUT /users/{id}", () => {
       name: "Dima",
       email: "Dimaaprilbiz",
     };
-    const response = await HttpClient.put("/users/1", user);
+    const response = await httpClient.put("/users/1", user);
 
     expect(response.statusCode).toEqual(400);
     expect(response.body.error).toBeTruthy();
@@ -107,7 +118,7 @@ describe("PUT /users/{id}", () => {
       name: "Dima",
       email: "Dimaapr@gmail.com",
     };
-    const response = await HttpClient.put("/users/asdf", user);
+    const response = await httpClient.put("/users/asdf", user);
 
     expect(response.statusCode).toEqual(404);
   });
@@ -115,17 +126,17 @@ describe("PUT /users/{id}", () => {
 
 describe("DELETE /users/{id}", () => {
   test("when a user exists", async () => {
-    const response = await HttpClient.delete("/users/1");
+    const response = await httpClient.delete("/users/1");
     expect(response.statusCode).toEqual(200);
   });
 
   test("when a user id is negative", async () => {
-    const response = await HttpClient.delete("/users/-1");
+    const response = await httpClient.delete("/users/-1");
     expect(response.statusCode).toEqual(200);
   });
 
   test("when a user id is too big", async () => {
-    const response = await HttpClient.delete("/users/1999999999");
+    const response = await httpClient.delete("/users/1999999999");
     expect(response.statusCode).toEqual(200);
   });
 });

@@ -2,46 +2,51 @@ import superagent from "superagent";
 import { logger } from "../log.config";
 
 export class HttpClient {
-  public static readonly host: string = "https://jsonplaceholder.typicode.com";
+  public readonly host: string = "https://jsonplaceholder.typicode.com";
+  public contextId: string;
 
-  public static async get(path: string) {
-    const url = HttpClient.host + path;
-    logger.info(`GET ${url}  Request started`);
+  constructor(contextId: string) {
+    this.contextId = contextId
+  }
+
+  public async get(path: string) {
+    const url = this.host + path;
+    logger.info(`ContextId: ${this.contextId} Request GET ${url}`);
     const response = await superagent.get(url).ok(() => true);
-    logger.info(`GET ${url}  Request finished`);
+    logger.info(`ContextId: ${this.contextId} Response GET ${url} Code: ${response.statusCode}`);
     return response;
   }
 
-  public static async post(path: string, body: object) {
-    const url = HttpClient.host + path;
-    logger.info(`POST ${url} body: ${JSON.stringify(body)} Request started`);
+  public async post(path: string, body: object) {
+    const url = this.host + path;
+    logger.info(`ContextId: ${this.contextId} Request POST ${url} body: ${JSON.stringify(body)}`);
     const response = await superagent
       .post(url)
       .send(body)
       .ok(() => true);
-    logger.info(`POST ${url} body: ${JSON.stringify(body)} Request finished`);
+    logger.info(`ContextId: ${this.contextId} Response POST ${url} body: ${JSON.stringify(body)} Code: ${response.statusCode}`);
     return response;
   }
 
-  public static async put(path: string, body: object) {
-    const url = HttpClient.host + path;
-    logger.info(`PUT ${url} body: ${JSON.stringify(body)} Request started`);
+  public async put(path: string, body: object) {
+    const url = this.host + path;
+    logger.info(`ContextId: ${this.contextId} Request PUT ${url} body: ${JSON.stringify(body)}`);
     const response = await superagent
       .put(url)
       .send(body)
       .ok(() => true);
-    logger.info(`PUT ${url} body: ${JSON.stringify(body)} Request finished`);
+    logger.info(`ContextId: ${this.contextId} Response PUT ${url} body: ${JSON.stringify(body)} Code: ${response.statusCode}`);
     return response;
   }
 
-  public static async delete(path: string) {
-    const url = HttpClient.host + path;
-    logger.info(`DELETE ${url}  Request started`);
+  public async delete(path: string) {
+    const url = this.host + path;
+    logger.info(`ContextId: ${this.contextId} Request DELETE ${url}`);
     const response = await superagent
       .delete(url)
       .send()
       .ok(() => true);
-    logger.info(`DELETE ${url}  Request finished`);
+    logger.info(`ContextId: ${this.contextId} Response DELETE ${url} Code: ${response.statusCode}`);
     return response;
   }
 }

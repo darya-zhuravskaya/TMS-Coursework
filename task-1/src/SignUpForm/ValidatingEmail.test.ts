@@ -14,7 +14,7 @@ describe("Validating email", () => {
     expect(form.submit()).toEqual(true);
   });
 
-  test("when valid email yandex.ru", () => {
+  test("when valid email is regisreted at allowed yandex.ru", () => {
     const form = new SignUpForm(
       "Petr",
       "Ivanov",

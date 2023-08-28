@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^29.6.2",
+    "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
     "eslint": "^8.47.0",
@@ -26,6 +27,7 @@
     "@types/superagent": "^4.1.18",
     "jsonschema": "^1.4.1",
     "log4js": "^6.9.1",
-    "superagent": "^8.1.2"
+    "superagent": "^8.1.2",
+    "uuid": "^9.0.0"
   }
 }
